@@ -73,3 +73,21 @@ void *bf_malloc(size_t size) {
 }
 void bf_free(void *ptr) {
 }
+unsigned long get_data_segment_size() {
+  Node * curr = allocatedListHead;
+  unsigned long dataSize = 0;
+  while (curr != NULL) {
+    dataSize += curr->start_address - curr->end_address;
+    curr = curr->next;
+  }
+  return dataSize;
+}
+unsigned long get_data_segment_free_space_size() {
+  Node * curr = allocatedListHead;
+  size_t counter = 0;
+  while (curr != NULL) {
+    counter++;
+    curr = curr->next;
+  }
+  return (get_data_segment_size() - counter * sizeof(*curr));
+}
